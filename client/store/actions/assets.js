@@ -14,3 +14,4 @@ export const getDefaultAssets = ({commit}) => {
 		commit(types.GET_DEFAULT_ASSETS,result);
 	});
 }
+

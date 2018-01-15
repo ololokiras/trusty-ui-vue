@@ -5,4 +5,6 @@ export const WS_ERROR = "WS_ERROR";
 export const GET_USER = "GET_USER";
 
 export const GET_ASSETS = "GET_ASSETS";
-export const GET_DEFAULT_ASSETS = "GET_DEFAULT_ASSETS"
+export const GET_DEFAULT_ASSETS = "GET_DEFAULT_ASSETS";
+
+export const SET_ASSET = "SET_ASSET";

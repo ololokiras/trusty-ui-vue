@@ -20,6 +20,9 @@ let mutations = {
 	},
 	[types.GET_DEFAULT_ASSETS] (state,assets){
 		state.assets = composeAssets(assets);
+	},
+	[types.SET_ASSET](state,asset){
+		state.asset = asset;
 	}
 }
 
