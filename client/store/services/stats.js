@@ -1,39 +1,42 @@
 import {Apis} from "bitsharesjs-ws"
 
-export function getMarketStats(base, quote) {
-    return (dispatch) => {
-    	let marketStats = {};
-        let market = quote.get("id") + "_" + base.get("id");
-        let marketName = quote.get("symbol") + "_" + base.get("symbol");
-        let now = new Date();
+export function fetchStats (base,quote,days,bucket_size) {
+    return new Promise((resolve,reject)=>{
+        Apis.instance().history_api().exec("get_fill_order_history", [base.id, quote.id, 1]).then((result)=>{
+            console.log("G_F_O_H",result[0].time);
+        });
         let endDate = new Date();
-        let startDateShort = new Date();
-        endDate.setDate(endDate.getDate() + 1);
-        startDateShort = new Date(startDateShort.getTime() - 3600 * 24 * 7 * 1000);
+        let startDate = new Date(endDate - 1000 * 60 * 60 * 24 * days);
 
-        let refresh = false;
+        console.log("NOW",new Date())
+        console.log("START",startDate)
+        console.log("END",endDate)
 
-        if (marketStats[market]) {
-            if ((now - marketStats[market].lastFetched) < statTTL) {
-                return false;
-            } else {
-                refresh = true;
+        let endDateISO = endDate.toISOString().slice(0,-5);         
+        let startDateISO =  startDate.toISOString().slice(0,-5);
+
+        Apis.instance().history_api().exec("get_market_history", [
+            base.id, quote.id, bucket_size, startDateISO, endDateISO
+        ]).then(result => {
+            if (result.length){
+                resolve(result);
+            }else{
+                reject("No results");
             }
-        }
+        }).catch(error => {
+            reject(error);
+        });
+    });
+}
 
-        if (!marketStats[market] || refresh) {
-            marketStats[market] = {
-                lastFetched: new Date()
-            };
-            Promise.all([
-                Apis.instance().history_api().exec("get_market_history", [
-                    base.get("id"), quote.get("id"), 3600, startDateShort.toISOString().slice(0, -5), endDate.toISOString().slice(0, -5)
-                ]),
-                Apis.instance().history_api().exec("get_fill_order_history", [base.get("id"), quote.get("id"), 1])
-            ])
-            .then(result => {
-                dispatch({history: result[0], last: result[1], market: marketName, base, quote});
-            });
-        }
-    };
+export function fetchAsset (assets) {
+    return new Promise((resolve,reject) => {
+        Apis.instance().db_api().exec( "lookup_asset_symbols", [ assets ] )
+        .then( result => {
+            console.log(result);
+            resolve(result);
+        }).catch( error => {
+            reject(error);
+        });
+    });
 }

@@ -4,12 +4,17 @@ import * as actions from '../actions/stats';
 
 let state = {
 	asset:null,
+	usdAsset:null,
 }
 
 let mutations={
 	[types.SET_ASSET] (state, asset){
 		state.asset= asset;
 		console.log("set asset", state);
+	},
+	[types.SET_USD_ASSET](state, usd){
+		state.usd= usd;
+		console.log("set usd", state.usd);
 	}
 }
 
