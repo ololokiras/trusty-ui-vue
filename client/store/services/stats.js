@@ -1,6 +1,6 @@
 import {Apis} from "bitsharesjs-ws"
 
-export function fetchStats (base,quote,days,bucket_size) {
+export function fetchStats ({base,quote,days,bucket_size}) {
     return new Promise((resolve,reject)=>{
         Apis.instance().history_api().exec("get_fill_order_history", [base.id, quote.id, 1]).then((result)=>{
             console.log("G_F_O_H",result[0].time);

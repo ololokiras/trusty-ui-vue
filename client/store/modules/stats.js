@@ -9,13 +9,14 @@ let state = {
 
 let mutations={
 	[types.SET_ASSET] (state, asset){
-		state.asset= asset;
+		state.asset = asset;
 		console.log("set asset", state);
 	},
 	[types.SET_USD_ASSET](state, usd){
-		state.usd= usd;
-		console.log("set usd", state.usd);
-	}
+		state.usdAsset = usd;
+
+		console.log("set usd", state);
+	},
 }
 
 export default {
