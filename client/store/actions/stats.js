@@ -19,7 +19,6 @@ export const fetchAsset=({commit},asset) => {
 export const fetchStats = ({commit}, tempObj)=>{
 	console.log("tempObj", tempObj);
 	apis.fetchStats(tempObj).then((result)=>{
-		console.log("fetch stats",result)
+		commit(types.SET_ASSET_PROGRESS, result);
 	})
 }
-

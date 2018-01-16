@@ -5,18 +5,19 @@ import * as actions from '../actions/stats';
 let state = {
 	asset:null,
 	usdAsset:null,
+	progress:null,
 }
 
 let mutations={
 	[types.SET_ASSET] (state, asset){
 		state.asset = asset;
-		console.log("set asset", state);
 	},
 	[types.SET_USD_ASSET](state, usd){
 		state.usdAsset = usd;
-
-		console.log("set usd", state);
 	},
+	[types.SET_ASSET_PROGRESS] (state, progress){
+		state.progress = progress;
+	}
 }
 
 export default {

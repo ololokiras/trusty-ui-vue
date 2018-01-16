@@ -15,11 +15,18 @@ export function fetchStats ({base,quote,days,bucket_size}) {
         let endDateISO = endDate.toISOString().slice(0,-5);         
         let startDateISO =  startDate.toISOString().slice(0,-5);
 
+
         Apis.instance().history_api().exec("get_market_history", [
             base.id, quote.id, bucket_size, startDateISO, endDateISO
         ]).then(result => {
             if (result.length){
-                resolve(result);
+                let startDateISOSliced=startDateISO.slice(0,-9);
+                let endDateISOSliced=endDateISO.slice(0,-9);
+                let startDayStats=result.filter( x => x.key.open.includes(startDateISOSliced))
+                let endDayStats=result.filter( x =>  x.key.open.includes(endDateISOSliced) )
+
+                resolve(getAssetProgress(startDayStats,endDayStats));
+                //resolve(result);
             }else{
                 reject("No results");
             }
@@ -27,6 +34,24 @@ export function fetchStats ({base,quote,days,bucket_size}) {
             reject(error);
         });
     });
+}
+
+function getAssetProgress(beforeArray, afterArray) {
+    return getBucketAvg(afterArray)/getBucketAvg(beforeArray);
+
+}
+
+function getBucketAvg(bucket){
+    let avg=0;
+    for(let item of bucket ){
+        avg+=getPrice(item);
+    }
+    avg/=bucket.length;
+    return avg;
+}
+
+function getPrice(bucket){
+    return bucket.base_volume / bucket.quote_volume;
 }
 
 export function fetchAsset (assets) {
