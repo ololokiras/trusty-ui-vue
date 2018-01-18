@@ -10,7 +10,6 @@ export function getAssetBySymbol({assets}){
 	console.log(assets);
 	if(assets){
 		return (symbol) => {
-			console.log(symbol);
 			return (assets[symbol]) ? assets[symbol] : false;
 		}
 	}

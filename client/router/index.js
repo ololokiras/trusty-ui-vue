@@ -21,7 +21,7 @@ export default new Router({
     },
     {
       name: 'stats',
-      path: '/stats/:asset',
+      path: '/stats/',
       component: Stats,
     },
   ]

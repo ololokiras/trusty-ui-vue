@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<router-link to="/">back</router-link>
-		<h4>{{this.$route.params.asset}}</h4>
 		<p></p>
 
 		<div v-if="this.$store.state.assets.assets">
@@ -21,10 +20,10 @@
 		</div>
 		
 		<p></p>
-		<button v-on:click="fetchStats">fetch stats</button>
+		<button v-on:click="fetchChange">fetch change</button>
 		<p></p>
 		<div v-if="this.$store.state.stats.change">
-			<p>change: {{this.$store.state.stats.change}}</p>
+			<p>change: {{getChange}}</p>
 		</div>
 
 	</div>
@@ -44,8 +43,8 @@ import { mapGetters } from 'vuex'
 			this.$store.dispatch('getDefaultAssets')
 		},
 		methods:{
-			fetchStats(){				
-				this.$store.dispatch('fetchStats',{
+			fetchChange(){				
+				this.$store.dispatch('fetchChange',{
 					base: this.base,
 					quote: this.quote,
 					days: 7,
@@ -56,7 +55,7 @@ import { mapGetters } from 'vuex'
 		computed:{
 			...mapGetters([
 				'getAllAssets',
-				'getAssetBySymbol'
+				'getChange',
 			])
 		}
 	}

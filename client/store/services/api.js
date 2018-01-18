@@ -2,7 +2,8 @@ import {Apis} from "bitsharesjs-ws";
 import * as User from "./user"
 
 export const initApis = (statusCallback) => {
-	let wsString = "wss://bitshares.openledger.info/ws";
+	let wsString = "wss://openledger.hk/ws";
+
 	Apis.setRpcConnectionStatusCallback(statusCallback);
 	return Apis.instance(wsString, true).init_promise;
 }
@@ -17,5 +18,6 @@ export const getAssets =  (assets) => {
 	    });
 	});
 }
+
 
 export {User}
