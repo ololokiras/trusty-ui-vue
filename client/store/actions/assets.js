@@ -12,6 +12,7 @@ export const getDefaultAssets = ({commit}) => {
 	let default_assets = ["BTS","OPEN.EOS","USD","OPEN.OMG","CNY","OPEN.LTC","OPEN.EOS","TRFND","OPEN.BTC","ARISTO","ARCOIN"];
 	apis.getAssets(default_assets).then( (result) => {
 		commit(types.GET_DEFAULT_ASSETS,result);
+		console.log("get default_assets", result);
 	});
 }
 

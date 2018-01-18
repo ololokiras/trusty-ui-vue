@@ -3,11 +3,28 @@
 		<router-link to="/">back</router-link>
 		<h4>{{this.$route.params.asset}}</h4>
 		<p></p>
-		<input v-model="days" placeholder="input interval days">
+
+		<div v-if="this.$store.state.assets.assets">
+			<select v-model="base"> 
+				<option v-for="asset in getAllAssets" v-bind:value="asset">
+					{{asset.symbol}}
+				</option>
+			</select>
+			<span> Base is: {{base.symbol}}</span>
+
+			<select v-model="quote">
+				<option v-for="asset in getAllAssets" v-bind:value="asset">
+					{{asset.symbol}}
+				</option>
+			</select>
+			<span>Quote is: {{quote.symbol}}</span>
+		</div>
+		
+		<p></p>
 		<button v-on:click="fetchStats">fetch stats</button>
 		<p></p>
-		<div v-if="this.$store.state.stats.progress">
-			<p>progress: {{this.$store.state.stats.progress}}</p>
+		<div v-if="this.$store.state.stats.change">
+			<p>change: {{this.$store.state.stats.change}}</p>
 		</div>
 
 	</div>
@@ -18,27 +35,29 @@ import { mapGetters } from 'vuex'
 	export default{
 		data(){
 			return{
-				days:"",
+				days: "",
+				base: "",
+				quote: "",
 			}
 		},
 		beforeMount(){
-			this.$store.dispatch('fetchAsset',[this.$route.params.asset])
-			this.$store.dispatch('fetchAsset',["USD"]);
+			this.$store.dispatch('getDefaultAssets')
 		},
 		methods:{
 			fetchStats(){				
 				this.$store.dispatch('fetchStats',{
-					base:this.$store.state.stats.asset[0],
-					quote:this.$store.state.stats.usdAsset[0],
-					days: this.days,
+					base: this.base,
+					quote: this.quote,
+					days: 7,
 					bucket_size:3600
 				});
 			}
 		},
-		/*computed:{
+		computed:{
 			...mapGetters([
-				'getProgress',
+				'getAllAssets',
+				'getAssetBySymbol'
 			])
-		}*/
+		}
 	}
 </script>

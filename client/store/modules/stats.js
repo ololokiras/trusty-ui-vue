@@ -5,7 +5,7 @@ import * as actions from '../actions/stats';
 let state = {
 	asset:null,
 	usdAsset:null,
-	progress:null,
+	change:null,
 }
 
 let mutations={
@@ -15,8 +15,8 @@ let mutations={
 	[types.SET_USD_ASSET](state, usd){
 		state.usdAsset = usd;
 	},
-	[types.SET_ASSET_PROGRESS] (state, progress){
-		state.progress = progress;
+	[types.SET_ASSET_CHANGE] (state, change){
+		state.change = change;
 	}
 }
 
